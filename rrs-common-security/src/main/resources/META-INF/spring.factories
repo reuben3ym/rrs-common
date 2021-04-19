@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.rrs.common.security.component.authorization.kaptcha.KaptchaConfig,\
+  com.rrs.common.security.component.RrsAuthenticationEntryPointImpl

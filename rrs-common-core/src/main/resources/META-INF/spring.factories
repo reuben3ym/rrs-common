@@ -1,0 +1,4 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.rrs.common.core.util.SpringContextUtils,\
+  com.rrs.common.core.filter.CommonFilterConfig,\
+  com.rrs.common.core.threadpool.ThreadPoolConfig
