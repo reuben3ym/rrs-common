@@ -55,6 +55,7 @@
         <module>rrs-common-redis</module>
         <module>rrs-common-sys-api</module>
         <module>rrs-common-remote</module>
+        <module>rrs-common-websocket</module>
     </modules>
 
     <dependencies>
@@ -287,6 +288,12 @@
             <dependency>
                 <groupId>com.rrs</groupId>
                 <artifactId>rrs-common-remote</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.rrs</groupId>
+                <artifactId>rrs-common-websocket</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>
