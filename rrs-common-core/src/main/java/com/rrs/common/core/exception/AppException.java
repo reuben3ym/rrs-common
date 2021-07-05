@@ -23,7 +23,7 @@ public class AppException extends BaseException {
         super(errMsg, cause);
     }
 
-    public AppException(String errCode, String errMsg, Throwable cause) {
+    public AppException(int errCode, String errMsg, Throwable cause) {
         super(errMsg, cause);
         this.errCode = errCode;
     }

@@ -23,7 +23,7 @@ public class SysException extends BaseException {
         super(errMsg, cause);
     }
 
-    public SysException(String errCode, String errMsg, Throwable cause) {
+    public SysException(int errCode, String errMsg, Throwable cause) {
         super(errMsg, cause);
         this.errCode = errCode;
     }

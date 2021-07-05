@@ -29,19 +29,19 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(BaseException.class)
     public Result handleBaseException(BaseException e) {
         log.error(e.getMessage(), e);
-        return Result.error(e.getMessage());
+        return Result.error(e.getErrCode(),e.getMessage());
     }
 
     @ExceptionHandler(SysException.class)
     public Result handleSysException(SysException e) {
         log.error(e.getMessage(), e);
-        return Result.error(e.getMessage());
+        return Result.error(e.getErrCode(),e.getMessage());
     }
 
     @ExceptionHandler(AppException.class)
     public Result handleAppException(AppException e) {
         log.error(e.getMessage(), e);
-        return Result.error(e.getMessage());
+        return Result.error(e.getErrCode(),e.getMessage());
     }
 
     @ExceptionHandler(NoHandlerFoundException.class)

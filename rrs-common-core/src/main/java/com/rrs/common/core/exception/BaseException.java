@@ -8,7 +8,7 @@ public class BaseException extends RuntimeException {
 
     private static final long serialVersionUID = 1L;
 
-    protected String errCode;
+    protected int errCode = 500;
 
     protected String errMsg;
 
@@ -29,11 +29,17 @@ public class BaseException extends RuntimeException {
         this.errMsg = errMsg;
     }
 
-    public String getErrCode() {
+    public BaseException(int errCode,String errMsg, Throwable e) {
+        super(errMsg, e);
+        this.errCode = errCode;
+        this.errMsg = errMsg;
+    }
+
+    public int getErrCode() {
         return errCode;
     }
 
-    public void setErrCode(String errCode) {
+    public void setErrCode(int errCode) {
         this.errCode = errCode;
     }
 
