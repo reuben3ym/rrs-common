@@ -57,5 +57,5 @@ public @interface RepeatRequest {
      *
      * @return
      */
-    String msg() default "交易未执行完毕，请勿重复提交";
+    String msg() default "请稍后重试";
 }

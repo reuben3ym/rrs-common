@@ -45,7 +45,7 @@ public class Result<T> implements Serializable {
 
     public static Result error(int code, String msg) {
         if (msg == null || msg.length() == 0) {
-            msg = "交易执行失败";
+            msg = "请稍后重试";
         }
         Result r = new Result(code, msg);
         return r;
@@ -53,7 +53,7 @@ public class Result<T> implements Serializable {
 
     public static <T> Result error(int code, String msg, T data) {
         if (msg == null || msg.length() == 0) {
-            msg = "交易执行失败";
+            msg = "请稍后重试";
         }
         Result r = new Result(code, msg, data);
         return r;

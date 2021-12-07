@@ -113,7 +113,7 @@ public class RepeatRequestComponent {
                 redissonDistributedLocker.unlock(rlock);
             }
         } else {
-            throw new BaseException(repeatRequest == null ? "交易未执行完毕，请勿重复提交" : repeatRequest.msg());
+            throw new BaseException(repeatRequest == null ? "请稍后重试" : repeatRequest.msg());
         }
         return obj;
     }
