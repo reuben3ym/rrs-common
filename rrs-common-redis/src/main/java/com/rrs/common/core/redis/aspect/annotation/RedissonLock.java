@@ -46,5 +46,5 @@ public @interface RedissonLock {
      *
      * @return
      */
-    String msg() default "交易执行失败，请稍后重试";
+    String msg() default "请稍后重试";
 }
