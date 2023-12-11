@@ -38,7 +38,11 @@ public class CaptchaFilter extends OncePerRequestFilter {
             Authentication authentication = SecurityUtils.getAuthentication();
             String clientId = authentication != null ? authentication.getName() : null;
             if (clientId != null && clients.contains(clientId)) {
-                validateCaptcha(request);
+                // 2023-12-11 wzg提出方案：参数isCaptcha = false 不校验验证码
+                String isCaptcha = request.getParameter("isCaptcha");
+                if (!"false".equals(isCaptcha)){
+                    validateCaptcha(request);
+                }
             }
         }
         filterChain.doFilter(request, response);
