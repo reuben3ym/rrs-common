@@ -99,7 +99,8 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public Result handleException(Exception e) {
         log.error(e.getMessage(), e);
-        return Result.error(e.getMessage());
+        String errorMessage= "请稍后重试";
+        return Result.error(errorMessage);
     }
 
 }
