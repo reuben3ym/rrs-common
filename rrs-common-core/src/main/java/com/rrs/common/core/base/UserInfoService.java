@@ -4,4 +4,6 @@ import com.rrs.common.core.Result;
 
 public interface UserInfoService {
     Result<UserInfo> info(String userId, String inner);
+
+    void disable(String userId);
 }

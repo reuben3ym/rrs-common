@@ -28,4 +28,9 @@ public class RemoteAppUserServiceFallbackImpl implements RemoteAppUserService {
         log.error("feign 查询用户信息失败:{}", userId, cause);
         return null;
     }
+
+    @Override
+    public void disable(String userId) {
+        log.error("feign 查询用户信息失败:{}", userId, cause);
+    }
 }

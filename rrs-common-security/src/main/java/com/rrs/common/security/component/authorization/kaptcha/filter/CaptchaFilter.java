@@ -1,11 +1,14 @@
 package com.rrs.common.security.component.authorization.kaptcha.filter;
 
+import cn.hutool.core.util.ObjectUtil;
+import com.rrs.common.core.Result;
+import com.rrs.common.core.base.UserInfo;
+import com.rrs.common.core.base.UserInfoService;
 import com.rrs.common.core.constant.CacheConstants;
 import com.rrs.common.core.constant.SecurityConstants;
 import com.rrs.common.core.exception.BaseException;
 import com.rrs.common.core.redis.util.RedisUtil;
-import com.rrs.common.core.util.CommonUtil;
-import com.rrs.common.core.util.SecurityUtils;
+import com.rrs.common.core.util.*;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -40,12 +43,53 @@ public class CaptchaFilter extends OncePerRequestFilter {
             if (clientId != null && clients.contains(clientId)) {
                 // 2023-12-11 wzg提出方案：参数isCaptcha = false 不校验验证码
                 String isCaptcha = request.getParameter("isCaptcha");
-                if (!"false".equals(isCaptcha)){
+                if (!"false".equals(isCaptcha)) {
                     validateCaptcha(request);
                 }
             }
+
+            String username = request.getParameter("username");
+            UserInfoService userInfoService = SpringContextUtils.getBean("sysUserServiceImpl");
+            Result<UserInfo> result = userInfoService.info(username, SecurityConstants.INNER_TRUE);
+            String status = result.getData().getStatus();
+            if (ObjectUtil.equal("2", status)) {
+                throw new BaseException("当前用户被锁定，请联系系统管理员！");
+            }
+
+            String password = request.getParameter("password");
+            String passwordStr = result.getData().getPassword();
+            if (!PasswordUtil.matchesPassword(password, passwordStr)) {
+                String key = CacheConstants.OAUTH_NUMBS + username;
+                int max = 5;
+                boolean hasKey = redisUtil.hasKey(key);
+                if (!hasKey) {
+                    int tokenNumbs = 1;
+                    redisUtil.set(key, tokenNumbs, 60 * 60 * 60);
+                    throw new BaseException("您还有" + (max - tokenNumbs) + "次机会，输错" + max + "次账号将被锁定！");
+                } else {
+                    int tokenNumbs = (int) redisUtil.get(CacheConstants.OAUTH_NUMBS + username);
+                    if (tokenNumbs < (max - 1)) {
+                        tokenNumbs += 1;
+                        redisUtil.set(key, tokenNumbs, 60 * 60 * 60);
+                        throw new BaseException("您还有" + (max - tokenNumbs) + "次机会，输错" + max + "次账号将被锁定！");
+                    } else {
+                        userInfoService.disable(username);
+                        throw new BaseException("您的账号已被锁定，请联系系统管理员！");
+                    }
+
+                }
+            }
+
         }
+
         filterChain.doFilter(request, response);
+    }
+
+    public void disable(String userId) {
+        String key = CacheConstants.OAUTH_NUMBS + userId;
+        if (redisUtil.hasKey(key)) {
+            redisUtil.del(key);
+        }
     }
 
     /**

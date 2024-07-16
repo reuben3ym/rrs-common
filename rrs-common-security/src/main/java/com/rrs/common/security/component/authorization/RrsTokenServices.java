@@ -13,7 +13,11 @@
 
 package com.rrs.common.security.component.authorization;
 
+import com.rrs.common.core.constant.CacheConstants;
+import com.rrs.common.core.util.SpringContextUtils;
+import com.rrs.common.security.component.authorization.kaptcha.filter.CaptchaFilter;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -116,6 +120,10 @@ public class RrsTokenServices implements AuthorizationServerTokenServices, Resou
         OAuth2AccessToken accessToken = createAccessToken(authentication, refreshToken);
         tokenStore.storeAccessToken(accessToken, authentication);
         tokenStore.storeRefreshToken(refreshToken, authentication);
+        // 登录成功，重置登录失败次数
+        String userId = authentication.getOAuth2Request().getRequestParameters().get("username");
+        CaptchaFilter bean = SpringContextUtils.getBean(CaptchaFilter.class);
+        bean.disable(userId);
         return accessToken;
 
     }

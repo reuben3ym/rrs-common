@@ -28,6 +28,8 @@ public class UserInfo implements Serializable {
 
     private String roleId;
 
+    private String status;
+
     private Map<String, Object> additionalInformation;
 
     /**
@@ -39,7 +41,7 @@ public class UserInfo implements Serializable {
     public UserInfo() {
     }
 
-    public UserInfo(String userId, String userName, String password, String orgId, String roleId,
+    public UserInfo(String userId, String userName, String password, String orgId, String roleId, String status,
                     Map<String, Object> additionalInformation, Collection<? extends GrantedAuthority> authorities) {
         this.userId = userId;
         this.userName = userName;
@@ -48,5 +50,6 @@ public class UserInfo implements Serializable {
         this.roleId = roleId;
         this.additionalInformation = additionalInformation;
         this.authorities = authorities;
+        this.status = status;
     }
 }
