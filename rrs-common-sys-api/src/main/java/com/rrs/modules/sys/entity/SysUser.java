@@ -38,7 +38,7 @@ public class SysUser extends BaseEntity {
      * 用户姓名
      */
     @NotNull
-    @LengthForUtf8(max = 100)
+    @LengthForUtf8(max = 100 * 3, message = "长度不能超过100个中文字符")
     @ExcelProperty("用户姓名")
     private String userName;
 
